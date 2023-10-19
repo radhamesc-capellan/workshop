@@ -12,15 +12,15 @@ const {
   ConnectionRefusedError,
   ConnectionTimedOutError,
   InvalidConnectionError,
-} = require('sequelize');
+} = require('sequelize')
   
 function logErrors(err, req, res, next) {
-  console.error(err);
-  next(err);
+  console.error(err)
+  next(err)
 }
   
 function errorHandler(err, req, res, next) {
-  let { status } = err;
+  let { status } = err
   
   return res.status(status || 500).json({
     message: err.message,
@@ -28,7 +28,7 @@ function errorHandler(err, req, res, next) {
   
     /* Auxiliar Info -example in schemas compare*/
     details: err.details,
-  });
+  })
 }
   
 function handlerAuthError(err, req, res, next) {
@@ -37,7 +37,7 @@ function handlerAuthError(err, req, res, next) {
       errorName: err.name,
       message: err.message,
       errors: err.errors,
-    });
+    })
   }
   
   //   if (err.name === "CustomName")
@@ -47,7 +47,7 @@ function handlerAuthError(err, req, res, next) {
       message: err.message,
       errors: err.errors,
       // stack: err.stack,
-    });
+    })
   }
   
   if (err.name === 'Error Testing') {
@@ -56,10 +56,10 @@ function handlerAuthError(err, req, res, next) {
       message: err.message,
       errors: err.errors,
       // stack: err.stack,
-    });
+    })
   }
   
-  next(err);
+  next(err)
 }
   
 function ormErrorHandler(err, req, res, next) {
@@ -74,7 +74,7 @@ function ormErrorHandler(err, req, res, next) {
       statusCode: 409,
       name: err.name,
       message: 'Database Connection Error',
-    });
+    })
   }
   
   if (err instanceof ValidationError) {
@@ -83,7 +83,7 @@ function ormErrorHandler(err, req, res, next) {
       name: err.name,
       message: err.message,
       errors: err.errors,
-    });
+    })
   }
   
   if (err instanceof QueryError ||
@@ -95,7 +95,7 @@ function ormErrorHandler(err, req, res, next) {
       name: err.name,
       message: err.message,
       errors: err.errors,
-    });
+    })
   }
   
   if (err instanceof EmptyResultError) {
@@ -104,7 +104,7 @@ function ormErrorHandler(err, req, res, next) {
       name: err.name,
       message: err.message,
       errors: err.errors,
-    });
+    })
   }
   
   if (err instanceof DatabaseError) {
@@ -117,7 +117,7 @@ function ormErrorHandler(err, req, res, next) {
       // errorOriginal: err['original'],
       // sql: err['sql'],
       // stack: err.stack,
-    });
+    })
   }
   
   if (err instanceof BaseError) {
@@ -130,10 +130,10 @@ function ormErrorHandler(err, req, res, next) {
       // errorOriginal: err['original'],
       // sql: err['sql'],
       //   stack: err.stack,
-    });
+    })
   }
   
-  next(err);
+  next(err)
 }
   
-module.exports = { logErrors, handlerAuthError, errorHandler, ormErrorHandler };
+module.exports = { logErrors, handlerAuthError, errorHandler, ormErrorHandler }
